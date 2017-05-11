@@ -4,6 +4,8 @@ import time
 
 fondo = Image.open("fondo.jpg")
 contador = 1
+nombre_p1 = "prueba"
+velocidad = 0
 
 
 
@@ -54,6 +56,7 @@ def menu():
 	principal.mainloop()
 
 def nombre():
+	global nombre_p1
 	#Evento para la aparición de la insturcción
 	def siguiente(event):
 		global contador
@@ -86,6 +89,9 @@ def nombre():
 	#Evento para continuar
 	nameground.bind_all("<Key>", siguiente)
 	nameground.bind_all("<KeyPress-Return>", pasar)
+	#Pasar el nombre a la variable global
+	nombre_p1 = name.get()
+
 
 	nombre.mainloop()
 
@@ -140,14 +146,18 @@ def nivel():
 	niveles.mainloop()
 
 def level1_1p():
+	global nombre_p1
+	global init
 	def movimientoI_falc(event):
 		level_one.move(falc, -5, 0)
+		time.sleep(0.01)
+		falc.update()
 		pass
 	def movimientoD_falc(event):
 		level_one.move(falc, 5, 0)
+		time.sleep(0.01)
+		falc.update()
 		pass
-
-
 	#Declarar las variables que se utilizarán
 	start = False
 	espacio = Image.open("space.png")
@@ -169,6 +179,10 @@ def level1_1p():
 	#Integrar jugador al canvas
 	falcon.jugador = ImageTk.PhotoImage(falcon)
 	falc = level_one.create_image(399, 501, image=falcon.jugador, anchor="nw")
+	#Integrar el enemigo con velocidad constante
+	#Intergrar el nombre del jugador a la pantalla
+	name = Label(level_one, text=nombre_p1, bg="black", fg="#4cffb5", font=("System", 30))
+	name.place(x=784, y=36)
 	#Movimiento del jugador
 	distancia = 5
 	movimientos = {
@@ -178,24 +192,52 @@ def level1_1p():
 	def move_press(event):
 		key = (event.keysym).lower()
 		level_one.move(falc, *movimientos[key])
+	def accelerate(event):
+		global velocidad
+		if velocidad < 300:
+			velocidad = velocidad + 10
+		print(velocidad)
+	def deaccelerate(event): #No sirve todavía
+		global velocidad
+		if velocidad >= 1 and velocidad <= 300:
+			velocidad = velocidad - 10
+		print(velocidad)
+
 
 	level_one.bind_all("<KeyPress-Left>", move_press)
 	level_one.bind_all("<KeyPress-Right>", move_press)
+	#Movimiento de la carretera
+	level_one.bind_all("<KeyPress-Up>", accelerate)
+	level_one.bind_all("<KeyRelease-Up>", deaccelerate)
 	#Contador para iniciar la partida
-	init = 3
-	while init >= 0:
+	init = 4
+	cont_partida = Label(level_one, text=init, bg="black", fg="#4cffb5", font=("System", 70))
+	cont_partida.place(x=431, y=249)
+
+	for i in range(4):
 		time.sleep(1)
-		init -= 1
+		init = init - 1		
+		cont_partida.config(text=init)
+		cont_partida.update()
 		if init == 0:
 			start = True
-			print("start")
-	#Gasolina
-	#if start == True:
+			cont_partida.destroy()
+
+	#Energía
+	#energy = 100
+	#eneg = Label(level_one, text=energy, bg="black", fg="#4cffb5", font=("System", 30))
+	#eneg.place(x=830, y=427)
+	#def cont_energia(energy):
+		#while start == True:
+			#energy = energy - 1
+			#eneg.config(text=energy)
 	#Aplicar movimiento al fondo
 	while start == True:
 		level_one.move(space, 0, 5)
 		level1.update()
 		time.sleep(0.01)
+
+
 
 	level1.mainloop()
 
