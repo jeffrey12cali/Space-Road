@@ -234,7 +234,7 @@ def level1_1p():
 	#Aplicar movimiento al fondo
 	while start == True:
 		level_one.move(space, 0, 5)
-		level1.update()
+		level_one.update()
 		time.sleep(0.01)
 
 
