@@ -4,7 +4,7 @@ import time
 
 fondo = Image.open("fondo.jpg")
 contador = 1
-nombre_p1 = "prueba"
+nombre_p1 = "Jeffrey"
 velocidad = 0
 
 
@@ -148,16 +148,6 @@ def nivel():
 def level1_1p():
 	global nombre_p1
 	global init
-	def movimientoI_falc(event):
-		level_one.move(falc, -5, 0)
-		time.sleep(0.01)
-		falc.update()
-		pass
-	def movimientoD_falc(event):
-		level_one.move(falc, 5, 0)
-		time.sleep(0.01)
-		falc.update()
-		pass
 	#Declarar las variables que se utilizarán
 	start = False
 	espacio = Image.open("space.png")
@@ -178,7 +168,25 @@ def level1_1p():
 	band = level_one.create_image(0, 0, image=bandas.fondo, anchor="nw")
 	#Integrar jugador al canvas
 	falcon.jugador = ImageTk.PhotoImage(falcon)
-	falc = level_one.create_image(399, 501, image=falcon.jugador, anchor="nw")
+	falc = level_one.create_image(428, 501, image=falcon.jugador, anchor="nw")
+	#Movimiento de falcon
+	#Integrar imagenes para la explosion
+	expl1 = Image.open("explosion1.png")
+	expl2 = Image.open("explosion2.png")
+	expl3 = Image.open("explosion3.png")
+	expl4 = Image.open("explosion4.png")
+	expl5 = Image.open("explosion5.png")
+	expl6 = Image.open("explosion6.png")
+
+	explo1 = ImageTk.PhotoImage(expl1)
+	explo2 = ImageTk.PhotoImage(expl2)
+	explo3 = ImageTk.PhotoImage(expl3)
+	explo4 = ImageTk.PhotoImage(expl4)
+	explo5 = ImageTk.PhotoImage(expl5)
+	explo6 = ImageTk.PhotoImage(expl6)
+
+	list_explos = [explo1, explo2, explo3, explo4, explo5, explo6]
+
 	#Integrar el enemigo con velocidad constante
 	#Intergrar el nombre del jugador a la pantalla
 	name = Label(level_one, text=nombre_p1, bg="black", fg="#4cffb5", font=("System", 30))
@@ -190,8 +198,12 @@ def level1_1p():
 		"right" : (distancia, 0)
 		}
 	def move_press(event):
-		key = (event.keysym).lower()
-		level_one.move(falc, *movimientos[key])
+		if level_one.coords(falc) >= [392, 501] and level_one.coords(falc) <= [469, 501]:
+			key = (event.keysym).lower()
+			level_one.move(falc, * movimientos[key])
+	level_one.bind_all("<KeyPress-Left>", move_press)
+	level_one.bind_all("<KeyPress-Right>", move_press)
+	#Movimiento de la carretera
 	def accelerate(event):
 		global velocidad
 		if velocidad < 300:
@@ -199,16 +211,13 @@ def level1_1p():
 		print(velocidad)
 	def deaccelerate(event): #No sirve todavía
 		global velocidad
-		if velocidad >= 1 and velocidad <= 300:
-			velocidad = velocidad - 10
+		while velocidad >= -1 and velocidad <= 309:
+			velocidad = velocidad - 1
 		print(velocidad)
-
-
-	level_one.bind_all("<KeyPress-Left>", move_press)
-	level_one.bind_all("<KeyPress-Right>", move_press)
-	#Movimiento de la carretera
 	level_one.bind_all("<KeyPress-Up>", accelerate)
 	level_one.bind_all("<KeyRelease-Up>", deaccelerate)
+	#Entrar al menú de pausa
+	
 	#Contador para iniciar la partida
 	init = 4
 	cont_partida = Label(level_one, text=init, bg="black", fg="#4cffb5", font=("System", 70))
@@ -223,19 +232,40 @@ def level1_1p():
 			start = True
 			cont_partida.destroy()
 
-	#Energía
-	#energy = 100
-	#eneg = Label(level_one, text=energy, bg="black", fg="#4cffb5", font=("System", 30))
-	#eneg.place(x=830, y=427)
-	#def cont_energia(energy):
-		#while start == True:
-			#energy = energy - 1
-			#eneg.config(text=energy)
+	#Declaración de la energía de la nave
+	energy = 100
+	eneg = Label(level_one, text=energy, bg="black", fg="#4cffb5", font=("System", 30))
+	eneg.place(x=830, y=427)
+		#Label para el título "Energy"
+	energia_lab = Label(level_one, text= "Energy", bg="black", fg="#4cffb5", font=("System", 30))
+	energia_lab.place(x=784, y=353)
+	#Mostrar la velocidad en pantalla
+	speed = Label(level_one, text=velocidad, bg="black", fg="#4cffb5", font=("System", 30))
+	speed.place(x=784, y=234)
 	#Aplicar movimiento al fondo
-	while start == True:
-		level_one.move(space, 0, 5)
-		level_one.update()
-		time.sleep(0.01)
+	def juego(energy):
+		#La nave del jugador vuelve al lugar de origen
+		level_one.coords(falc, 428, 501)
+		while start == True and energy > 0:
+			falc_coords = level_one.coords(falc)
+			level_one.move(space, 0, velocidad/50)
+			energy = energy - 0.01
+			eneg.config(text=int(energy))
+			speed.config(text=str(velocidad)+"Km/s")
+			#Colisión con los límites de la carretera
+			if level_one.coords(falc) <= [392, 501] or level_one.coords(falc) >= [469, 501]:
+				energy = energy - 10
+				for x in range(len(list_explos)):
+					explos = level_one.create_image(falc_coords[0], falc_coords[1], image=list_explos[x], anchor="nw")
+					if x == 5:
+						level_one.delete(explos)
+						level_one.after(5000, juego(energy))
+					level_one.update()
+					time.sleep(0.1)
+					level_one.delete(explos)
+			level_one.update()
+			time.sleep(0.01)
+	juego(energy)
 
 
 
