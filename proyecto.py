@@ -4,19 +4,27 @@ import time
 import random
 
 fondo = Image.open("fondo.jpg")
+#VARIABLES GLOBALES UTILIZADAS EN EL MODO 1 JUGADOR
+#Utilizada en la función nombre para la aparición de una instrucción
 contador = 1
+#Utilizada en la función "nombre" para guardar el nombre que escribe el usuario
 nombre_p1 = "Jeffrey"
+#Utilizada en la función "level1" para controlar la velocidad con la que se mueve el mapa
 velocidad = 0
 #Utilizado en el menú de pausa
-pausado = False
-p_selecter = 0
+pausado = False #Indica si el juego se encuentra en pausa o no
+p_selecter = 0  #Es la declaración global para el seleccionador del menú de pausa
 #Energía de la nave
 energy = 100
-
+#Variables utilizadas para la declaración del enemigo "Wyvern" y su caja para las colisiones
 wyvern = 0
-
-x = 3
-
+wyvern_box = 0
+#Variables utilizadas para la declaración del enemigo "Wyvern" y su caja para las colisiones
+goldenfox = 0
+goldenfox_box = 0
+cambio = False
+#Utilizado para almacenar la puntiación del jugador en el modo 1p
+puntos_1p = 0
 
 
 
@@ -160,6 +168,8 @@ def level1_1p():
 	global nombre_p1
 	global init
 	global energy
+	global wyvern
+	global wyvern_box
 	#Declarar las variables que se utilizarán
 	start = False
 	espacio = Image.open("space.jpg")
@@ -196,27 +206,61 @@ def level1_1p():
 	explo5 = ImageTk.PhotoImage(expl5)
 	explo6 = ImageTk.PhotoImage(expl6)
 
+	#Se crea una lista para la animación de la explosión
 	list_explos = [explo1, explo2, explo3, explo4, explo5, explo6]
 
-	#Ganador
+	#Imagen al completar el nivel
 	w = Image.open("youwin.png")
 	win = ImageTk.PhotoImage(w)
-	#Integrar el enemigo con velocidad constante
+	#Integrar el enemigo con velocidad constante (Wyvern)
 	def wyvern_spawn():
 		global wyvern
+		#Se hace una elección para que aparezca el enemigo o no
 		aparecer = ["si", "no"]
 		resultado = random.choice(aparecer)
 		if resultado == "si" and wyvern == 0:
+			#Se hace otra elección aleatoria para que posicione al enemigo en uno de los dos carriles diponibles
 			spawns = [[404, -90], [464, -90]]
 			resultado2 = random.choice(spawns)
 			wyvern = level_one.create_image(resultado2[0], resultado2[1], image=wyv, anchor="nw")
-			print(resultado2)
+			wyvern_box = level_one.bbox(wyvern)
 		elif resultado == "si" and level_one.coords(wyvern)[1] > 1000:
+			#Se hace otra elección aleatoria para que posicione al enemigo en uno de los dos carriles diponibles
 			spawns = [[404, -90], [464, -90]]
 			resultado2 = random.choice(spawns)
 			wyvern = level_one.create_image(resultado2[0], resultado2[1], image=wyv, anchor="nw")
+			wyvern_box = level_one.bbox(wyvern)
 	wy = Image.open("wyvern.png")
 	wyv = ImageTk.PhotoImage(wy)
+	wyvern = level_one.create_image(0, 602, image=wyv, anchor="nw")
+	wyvern_box = level_one.bbox(wyvern)
+
+	#Integrar al enemigo que cambia de carril aleatoriamente 
+	def goldenfox_spawn():
+		global goldenfox
+		global cambio
+		#Se hace una elección para que aparezca el enemigo o no
+		aparecer_gf = ["si", "no"]
+		resultado_gf = random.choice(aparecer_gf)
+		if resultado_gf == "si" and goldenfox == 0:
+			#Se hace otra elección aleatoria para que posicione al enemigo en uno de los dos carriles diponibles
+			spawns_gf = [[404, -270], [464, -300]]
+			resultado2_gf = random.choice(spawns_gf)
+			goldenfox = level_one.create_image(resultado2_gf[0], resultado2_gf[1], image=gold, anchor="nw")
+			goldenfox_box = level_one.bbox(goldenfox)
+			cambio = False
+		elif resultado_gf == "si" and level_one.coords(goldenfox)[1] > 3000:
+			#Se hace otra elección aleatoria para que posicione al enemigo en uno de los dos carriles diponibles
+			spawns_gf = [[404, -270], [464, -300]]
+			resultado2_gf = random.choice(spawns_gf)
+			goldenfox = level_one.create_image(resultado2_gf[0], resultado2_gf[1], image=gold, anchor="nw")
+			goldenfox_box = level_one.bbox(goldenfox)
+			cambio = False
+
+	gf = Image.open("goldenfox.png")
+	gold = ImageTk.PhotoImage(gf)
+	goldenfox = level_one.create_image(0, 600, image=gold, anchor="nw")
+
 	#Intergrar el nombre del jugador a la pantalla
 	name = Label(level_one, text=nombre_p1, bg="black", fg="#4cffb5", font=("System", 30))
 	name.place(x=784, y=36)
@@ -246,7 +290,6 @@ def level1_1p():
 			velocidad = velocidad - 1
 	level_one.bind_all("<KeyPress-Up>", accelerate)
 	level_one.bind_all("<KeyRelease-Up>", deaccelerate)
-	#Entrar al menú de pausa
 	#Imagen del menú de pausa
 	pausa = Image.open("pausa.png")
 	pause = ImageTk.PhotoImage(pausa)
@@ -291,6 +334,23 @@ def level1_1p():
 	level_one.bind_all("<Key-p>", pause_menu)
 	level_one.bind_all("<KeyPress-Down>", move_down_pause)
 	level_one.bind_all("<KeyPress-Return>", eleccion_menu_pausa)
+
+	#Declaración de la energía de la nave
+	eneg = Label(level_one, text=energy, bg="black", fg="#4cffb5", font=("System", 30))
+	eneg.place(x=830, y=427)
+
+	#Label para el título "Energy"
+	energia_lab = Label(level_one, text= "Energy", bg="black", fg="#4cffb5", font=("System", 30))
+	energia_lab.place(x=784, y=353)
+
+	#Mostrar la velocidad en pantalla
+	speed = Label(level_one, text=velocidad, bg="black", fg="#4cffb5", font=("System", 30))
+	speed.place(x=784, y=234)
+
+	#Puntuación
+	puntos = Label(level_one, text=puntos_1p, bg="black", fg="#4cffb5", font=("System", 30))
+	puntos.place(x=784, y=138)
+
 	#Contador para iniciar la partida
 	init = 4
 	cont_partida = Label(level_one, text=init, bg="black", fg="#4cffb5", font=("System", 70))
@@ -305,39 +365,95 @@ def level1_1p():
 			start = True
 			cont_partida.destroy()
 
-	#Declaración de la energía de la nave
-	eneg = Label(level_one, text=energy, bg="black", fg="#4cffb5", font=("System", 30))
-	eneg.place(x=830, y=427)
-	#Label para el título "Energy"
-	energia_lab = Label(level_one, text= "Energy", bg="black", fg="#4cffb5", font=("System", 30))
-	energia_lab.place(x=784, y=353)
-	#Mostrar la velocidad en pantalla
-	speed = Label(level_one, text=velocidad, bg="black", fg="#4cffb5", font=("System", 30))
-	speed.place(x=784, y=234)
 	#Aplicar movimiento al fondo
 	def juego():
 		global energy
 		global wyvern
-		global x
+		global wyvern_box
+		global puntos_1p
+		global goldenfox
+		global cambio
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 438, level_one.coords(falc)[1])
 		#Se crea el enemigo wyvern
-		while start == True and energy > 0 and pausado == False and level_one.coords(space)[1] < 1:
+		while start == True and energy > 0 and pausado == False and level_one.coords(space)[1] < 1: 
 			falc_coords = level_one.coords(falc)
+			#Declaración de la caja para las colisiones
 			falc_box = level_one.bbox(falc)
 			level_one.after(5000, wyvern_spawn)
 			level_one.move(space, 0, velocidad/70)
 			level_one.move(wyvern, 0, 3)
+
+
+			#Declaración de la caja para las colisiones
 			wyvern_box = level_one.bbox(wyvern)
+			wyvern_coords = level_one.coords(wyvern)
+
+			#Goldenfox
+			level_one.after(5000, goldenfox_spawn)
+			level_one.move(goldenfox, 0, 3)
+			if level_one.coords(goldenfox) > [404, random.randrange(10, 300)] and level_one.coords(goldenfox)[0] == 404 and cambio == False:
+				cambio = True
+				comprobar1 = ["si", "no"]
+				cambiar_carril1 = random.choice(comprobar1)
+				print(cambiar_carril1)
+				if cambiar_carril1 == "si":
+					for x in range(12):
+						level_one.move(goldenfox, 5, 3) 
+						print("yes_dcha")
+						level_one.update()
+						time.sleep(0.01)
+			elif level_one.coords(goldenfox) > [464, 40] and level_one.coords(goldenfox)[0] == 464 and cambio == False:
+				cambio = True
+				comprobar2 = ["si", "no"]
+				cambiar_carril2 = random.choice(comprobar2)
+				print(cambiar_carril2)
+				if cambiar_carril2 == "si":
+					for x in range(12):
+						level_one.move(goldenfox, -5, 1) 
+						print("yes_dcha")
+						level_one.update()
+						time.sleep(0.01)
+			#print(cambio)
+
+
+
+
+
+
 			energy = energy - 0.01
 			eneg.config(text=int(energy))
 			speed.config(text=str(velocidad)+"Km/s")
+			#print(level_one.find_overlapping(wyvern_box[0], wyvern_box[1], wyvern_box[2], wyvern_box[3]))
 
-
-			print(level_one.find_overlapping(wyvern_box[0], wyvern_box[1], wyvern_box[2], wyvern_box[3]))
+			#Conteo de la puntiación
 			
-			#if 3 in level_one.find_overlapping(wyvern_box[0], wyvern_box[1], wyvern_box[2], wyvern_box[3]):
-			#	print("choque")
+			#Colisión con Wyvern
+			if 3 in level_one.find_overlapping(wyvern_box[0], wyvern_box[1], wyvern_box[2], wyvern_box[3]):
+				energy = energy - 2
+				eneg.config(text=int(energy))
+				if level_one.coords(wyvern)[0] == 404:
+					level_one.move(falc, velocidad/8, 0)
+					level_one.move(wyvern, -velocidad/10, 0)
+				elif level_one.coords(wyvern)[0] == 464:
+					level_one.move(falc, -velocidad/8, 0)
+					level_one.move(wyvern, velocidad/10, 0)
+				if level_one.coords(wyvern) <= [392, 501] or level_one.coords(wyvern) >= [469, 501]:
+					for x in range(len(list_explos)):
+						explos = level_one.create_image(wyvern_coords[0], wyvern_coords[1], image=list_explos[x], anchor="nw")
+						level_one.coords(wyvern, 0, 600)
+						if x == 5:
+							level_one.delete(explos)
+						level_one.update()
+						time.sleep(0.1)
+						level_one.delete(explos)
+				level_one.update()
+				time.sleep(0.1)
+
+			#Conteo de la puntuación
+			elif falc_coords[1] == wyvern_coords[1]:
+				puntos_1p += 50
+				puntos.config(text=str(puntos_1p)+"pts")
 
 			#Colisión con los límites de la carretera
 			if level_one.coords(falc) <= [392, 501] or level_one.coords(falc) >= [469, 501]:
@@ -352,6 +468,7 @@ def level1_1p():
 					level_one.delete(explos)
 			level_one.update()
 			time.sleep(0.01)
+
 		#Mensaje de que ganó la partida
 		if level_one.coords(space)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=win, anchor="nw")
