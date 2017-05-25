@@ -42,6 +42,8 @@ coordenadas_juego_l1_x = coordenadas_juego_l1[0]
 coordenadas_juego_l1_y = coordenadas_juego_l1[1]
 #Indicador de si el juego ha sido cargado o no
 cargado = False
+#Indicador si el jugador proviene de un nivel anterior o no
+nivel_a = False
 ##############################################################################################
 
 #VARIABLES PARA EL MODO DOS JUGADORES
@@ -280,7 +282,7 @@ def level1_1p():
 	global ball
 	global hole
 	global cargado
-
+	global nombre_p1
 	#Función para guardar partida
 	def save_game():
 		global nombre_p1
@@ -594,6 +596,8 @@ def level1_1p():
 		global hole
 		global velocidad
 		global coordenadas_juego
+		global nombre_p1
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 438, level_one.coords(falc)[1])
@@ -830,6 +834,7 @@ def level1_1p():
 			time.sleep(1)
 			level_one.update()
 			level1.destroy()
+			nivel_a = True
 			level2_1p()
 		elif energy == 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
@@ -855,6 +860,7 @@ def level2_1p():
 	global ball
 	global hole
 	global cargado
+	global nivel_a
 
 	#Función para guardar partida
 	def save_game():
@@ -872,7 +878,11 @@ def level2_1p():
 	espacio = Image.open("space2.jpg")
 	bandas = Image.open("bandas.png")
 	falcon = Image.open("falcon.png")
-	nombre_p1 = nombre_p1.get()
+	if nivel_a == True:
+		nombre_p1 = nombre_p1
+		nivel_a = False
+	else:
+		nombre_p1 = nombre_p1.get()
 	#Generar la ventana
 	level1 = Tk()
 	level1.geometry("1000x600")
@@ -1169,6 +1179,7 @@ def level2_1p():
 		global hole
 		global velocidad
 		global coordenadas_juego
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 438, level_one.coords(falc)[1])
@@ -1405,6 +1416,7 @@ def level2_1p():
 			time.sleep(1)
 			level_one.update()
 			level1.destroy()
+			nivel_a = True
 			level3_1p()
 		elif energy == 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
@@ -1430,6 +1442,7 @@ def level3_1p():
 	global ball
 	global hole
 	global cargado
+	global nivel_a
 
 	#Función para guardar partida
 	def save_game():
@@ -1447,7 +1460,11 @@ def level3_1p():
 	espacio = Image.open("space3.jpg")
 	bandas = Image.open("bandas.png")
 	falcon = Image.open("falcon.png")
-	nombre_p1 = nombre_p1.get()
+	if nivel_a == True:
+		nombre_p1 = nombre_p1
+		nivel_a == False
+	else:
+		nombre_p1 = nombre_p1.get()
 	#Generar la ventana
 	level1 = Tk()
 	level1.geometry("1000x600")
@@ -1744,6 +1761,7 @@ def level3_1p():
 		global hole
 		global velocidad
 		global coordenadas_juego
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 438, level_one.coords(falc)[1])
@@ -1980,6 +1998,7 @@ def level3_1p():
 			time.sleep(1)
 			level_one.update()
 			level1.destroy()
+			nivel_a = True
 			level4_1p()
 		elif energy == 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
@@ -2005,6 +2024,7 @@ def level4_1p():
 	global ball
 	global hole
 	global cargado
+	global nivel_a
 
 	#Función para guardar partida
 	def save_game():
@@ -2021,7 +2041,11 @@ def level4_1p():
 	espacio = Image.open("space4.jpg")
 	bandas = Image.open("bandas.png")
 	falcon = Image.open("falcon.png")
-	nombre_p1 = nombre_p1.get()
+	if nivel_a == True:
+		nombre_p1 = nombre_p1
+		nivel_a = False
+	else:
+		nombre_p1 = nombre_p1.get()
 	#Generar la ventana
 	level1 = Tk()
 	level1.geometry("1000x600")
@@ -2318,6 +2342,7 @@ def level4_1p():
 		global hole
 		global velocidad
 		global coordenadas_juego
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 438, level_one.coords(falc)[1])
@@ -2553,6 +2578,7 @@ def level4_1p():
 			time.sleep(1)
 			level_one.update()
 			level1.destroy()
+			nivel_a = True
 			level5_1p()
 		elif energy == 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
@@ -2578,6 +2604,7 @@ def level5_1p():
 	global ball
 	global hole
 	global cargado
+	global nivel_a
 
 	#Función para guardar partida
 	def save_game():
@@ -2594,7 +2621,11 @@ def level5_1p():
 	espacio = Image.open("space5.jpg")
 	bandas = Image.open("bandas.png")
 	falcon = Image.open("falcon.png")
-	nombre_p1 = nombre_p1.get()
+	if nivel_a == True:
+		nombre_p1 = nombre_p1
+		nivel_a = False
+	else:
+		nombre_p1 = nombre_p1.get()
 	#Generar la ventana
 	level1 = Tk()
 	level1.geometry("1000x600")
@@ -2891,6 +2922,7 @@ def level5_1p():
 		global hole
 		global velocidad
 		global coordenadas_juego
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 438, level_one.coords(falc)[1])
@@ -3265,6 +3297,7 @@ def level1_2p():
 	global velocidad2
 	global puntos1
 	global puntos2
+	global nivel_a
 
 
 	#Declarar las variables que se utilizarán
@@ -3719,6 +3752,7 @@ def level1_2p():
 		global coordenadas_juego
 		global puntos1
 		global puntos2
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 198, level_one.coords(falc)[1])
@@ -4160,24 +4194,28 @@ def level1_2p():
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
+			nivel_a = True
 			level2_2p()
 		elif level_one.coords(space2)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
+			nivel_a = True
 			level2_2p()
 		elif energy1 <= 0:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
+			nivel_a = True
 			level2_2p()
 		elif energy2 <= 0:
 			winner = level_one.create_image(0, 0, image=win_lose, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
+			nivel_a = True
 			level2_2p()
 	#La nave del jugador vuelve al lugar de origen
 	level_one.coords(falc, 168, 501)
@@ -4207,6 +4245,7 @@ def level2_2p():
 	global velocidad2
 	global puntos1
 	global puntos2
+	global nivel_a
 
 
 	#Declarar las variables que se utilizarán
@@ -4215,8 +4254,15 @@ def level2_2p():
 	espacio2 = Image.open("space2_2.jpg")
 	bandas = Image.open("separador.png")
 	falcon = Image.open("falcon.png")
-	nombre1 = nombre1.get()
-	nombre2 = nombre2.get()
+	if nivel_a == True:
+		nombre1 = nombre1
+		nombre2 = nombre2
+		nivel_a = False
+		energy1 = 100
+		energy2 = 100
+	else:
+		nombre1 = nombre1.get()
+		nombre2 = nombre2.get()
 	#Generar la ventana
 	level1 = Tk()
 	level1.geometry("1000x600")
@@ -4661,6 +4707,7 @@ def level2_2p():
 		global coordenadas_juego
 		global puntos1
 		global puntos2
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 198, level_one.coords(falc)[1])
@@ -5102,25 +5149,29 @@ def level2_2p():
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level3_2p()
 		elif level_one.coords(space2)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level3_2p()
 		elif energy1 <= 0:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level3_2p()
 		elif energy2 <= 0:
 			winner = level_one.create_image(0, 0, image=win_lose, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level3_2p()
 	#La nave del jugador vuelve al lugar de origen
 	level_one.coords(falc, 168, 501)
 	#level_one.coords(space, coordenadas_juego_l1_x, coordenadas_juego_l1_y)
@@ -5149,6 +5200,7 @@ def level3_2p():
 	global velocidad2
 	global puntos1
 	global puntos2
+	global nivel_a
 
 
 	#Declarar las variables que se utilizarán
@@ -5157,8 +5209,15 @@ def level3_2p():
 	espacio2 = Image.open("space3_2.jpg")
 	bandas = Image.open("separador.png")
 	falcon = Image.open("falcon.png")
-	nombre1 = nombre1.get()
-	nombre2 = nombre2.get()
+	if nivel_a == True:
+		nombre1 = nombre1
+		nombre2 = nombre2
+		nivel_a = False
+		energy1 = 100
+		energy2 = 100
+	else:
+		nombre1 = nombre1.get()
+		nombre2 = nombre2.get()
 	#Generar la ventana
 	level1 = Tk()
 	level1.geometry("1000x600")
@@ -5603,6 +5662,7 @@ def level3_2p():
 		global coordenadas_juego
 		global puntos1
 		global puntos2
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 198, level_one.coords(falc)[1])
@@ -6044,25 +6104,29 @@ def level3_2p():
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level4_2p()
 		elif level_one.coords(space2)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level4_2p()
 		elif energy1 <= 0:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level4_2p()
 		elif energy2 <= 0:
 			winner = level_one.create_image(0, 0, image=win_lose, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level4_2p()
 	#La nave del jugador vuelve al lugar de origen
 	level_one.coords(falc, 168, 501)
 	#level_one.coords(space, coordenadas_juego_l1_x, coordenadas_juego_l1_y)
@@ -6091,6 +6155,7 @@ def level4_2p():
 	global velocidad2
 	global puntos1
 	global puntos2
+	global nivel_a
 
 
 	#Declarar las variables que se utilizarán
@@ -6099,8 +6164,15 @@ def level4_2p():
 	espacio2 = Image.open("space4_2.jpg")
 	bandas = Image.open("separador.png")
 	falcon = Image.open("falcon.png")
-	nombre1 = nombre1.get()
-	nombre2 = nombre2.get()
+	if nivel_a == True:
+		nombre1 = nombre1
+		nombre2 = nombre2
+		nivel_a = False
+		energy2 = 100
+		energy1 = 100
+	else:
+		nombre1 = nombre1.get()
+		nombre2 = nombre2.get()
 	#Generar la ventana
 	level1 = Tk()
 	level1.geometry("1000x600")
@@ -6545,6 +6617,7 @@ def level4_2p():
 		global coordenadas_juego
 		global puntos1
 		global puntos2
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 198, level_one.coords(falc)[1])
@@ -6986,25 +7059,29 @@ def level4_2p():
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level5_2p()
 		elif level_one.coords(space2)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level5_2p()
 		elif energy1 <= 0:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level5_2p()
 		elif energy2 <= 0:
 			winner = level_one.create_image(0, 0, image=win_lose, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			nivel_a = True
+			level5_2p()
 	#La nave del jugador vuelve al lugar de origen
 	level_one.coords(falc, 168, 501)
 	#level_one.coords(space, coordenadas_juego_l1_x, coordenadas_juego_l1_y)
@@ -7033,6 +7110,7 @@ def level5_2p():
 	global velocidad2
 	global puntos1
 	global puntos2
+	global nivel_a
 
 
 	#Declarar las variables que se utilizarán
@@ -7041,8 +7119,15 @@ def level5_2p():
 	espacio2 = Image.open("space5_2.jpg")
 	bandas = Image.open("separador.png")
 	falcon = Image.open("falcon.png")
-	nombre1 = nombre1.get()
-	nombre2 = nombre2.get()
+	if nivel_a == True:
+		nombre1 = nombre1
+		nombre2 = nombre2
+		nivel_a = False
+		energy1 = 100
+		energy2 = 100
+	else:
+		nombre1 = nombre1.get()
+		nombre2 = nombre2.get()
 	#Generar la ventana
 	level1 = Tk()
 	level1.geometry("1000x600")
@@ -7487,6 +7572,7 @@ def level5_2p():
 		global coordenadas_juego
 		global puntos1
 		global puntos2
+		global nivel_a
 
 		#Se posiciona al jugador en el eje x de inicio
 		level_one.coords(falc, 198, level_one.coords(falc)[1])
@@ -7928,25 +8014,25 @@ def level5_2p():
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			menu()
 		elif level_one.coords(space2)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			menu()
 		elif energy1 <= 0:
 			winner = level_one.create_image(0, 0, image=lose_win, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			menu()
 		elif energy2 <= 0:
 			winner = level_one.create_image(0, 0, image=win_lose, anchor="nw")
 			level_one.update()
 			time.sleep(5)
 			level1.destroy()
-			level2_2p()
+			menu()
 	#La nave del jugador vuelve al lugar de origen
 	level_one.coords(falc, 168, 501)
 	#level_one.coords(space, coordenadas_juego_l1_x, coordenadas_juego_l1_y)
