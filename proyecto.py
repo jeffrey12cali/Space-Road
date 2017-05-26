@@ -831,15 +831,15 @@ def level1_1p():
 		#Mensaje de que ganó la partida
 		if level_one.coords(space)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=win, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			nivel_a = True
 			level2_1p()
-		elif energy == 0:
+		elif energy < 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			menu()
 	#La nave del jugador vuelve al lugar de origen
@@ -1415,13 +1415,13 @@ def level2_1p():
 			winner = level_one.create_image(0, 0, image=win, anchor="nw")
 			time.sleep(1)
 			level_one.update()
-			level1.destroy()
+			time.sleep(5)
 			nivel_a = True
 			level3_1p()
-		elif energy == 0:
+		elif energy < 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			menu()
 	#La nave del jugador vuelve al lugar de origen
@@ -1995,15 +1995,15 @@ def level3_1p():
 		#Mensaje de que ganó la partida
 		if level_one.coords(space)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=win, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			nivel_a = True
 			level4_1p()
-		elif energy == 0:
+		elif energy < 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			menu()
 	#La nave del jugador vuelve al lugar de origen
@@ -2575,15 +2575,15 @@ def level4_1p():
 		#Mensaje de que ganó la partida
 		if level_one.coords(space)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=win, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			nivel_a = True
 			level5_1p()
-		elif energy == 0:
+		elif energy < 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			menu()
 	#La nave del jugador vuelve al lugar de origen
@@ -3155,14 +3155,14 @@ def level5_1p():
 		#Mensaje de que ganó la partida
 		if level_one.coords(space)[1] >= 1:
 			winner = level_one.create_image(0, 0, image=win, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			menu()
-		elif energy == 0:
+		elif energy < 0:
 			loser = level_one.create_image(0, 0, image=los, anchor="nw")
-			time.sleep(1)
 			level_one.update()
+			time.sleep(5)
 			level1.destroy()
 			menu()
 	#La nave del jugador vuelve al lugar de origen
